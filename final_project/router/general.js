@@ -42,12 +42,14 @@ public_users.get('/',async function (req, res) {
 // Get book details based on ISBN
 const getByISBN = (isbn) => {
     return new Promise((resolve, reject) => {
-        let isbnNum = parseInt(isbn);
-        if (books[isbnNum]) {
+        let isbnNum = isbn;
+        for (let id in books) {
+        if (books[id].isbn === isbnNum) {
             resolve(books[isbnNum]);
         } else {
             reject({ status: 404, message: `ISBN ${isbn} not found` });
         }
+    }
     });
 };
 

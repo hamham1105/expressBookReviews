@@ -40,15 +40,14 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
   const isbn = req.params.isbn;
   const review = req.body.review;
   const username = req.session.authorization.username;
-  if (books[isbn]) {
-    let book = books[isbn];
-    book.reviews[username] = review;
-    return res.status(200).send("Review successfully posted");
-  }
-  else {
-      return res.status(404).json({message: `ISBN ${isbn} not found`});
-  }
-});
+  for (let id in books) {  
+    if (books[id].isbn === isbn){  
+      books[id].reviews[username] = review;  
+      return res.status(200).send("Review successfully posted");  
+    }  
+  }  
+  return res.status(404).json({message: `ISBN ${isbn} not found`});  
+});  
 
 //  Task 9
 //  Delete a book review
